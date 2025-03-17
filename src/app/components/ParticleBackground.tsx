@@ -19,6 +19,13 @@ export default function ParticleBackground() {
     script.async = true;
     document.body.appendChild(script);
 
+    const updateParticleCount = () => {
+      const pjsInstance = window.pJSDom?.[0]?.pJS;
+      if (pjsInstance?.particles?.array) {
+        setParticleCount(pjsInstance.particles.array.length.toString());
+      }
+    };
+
     script.onload = () => {
       if (typeof window.particlesJS === 'function') {
         window.particlesJS('particles-js', {
@@ -43,28 +50,17 @@ export default function ParticleBackground() {
           retina_detect: true,
         });
 
-        // Function to update particle count safely
-        const updateParticleCount = () => {
-          const pjsInstance = window.pJSDom?.[0]?.pJS;
-          if (pjsInstance?.particles?.array) {
-            setParticleCount(pjsInstance.particles.array.length.toString());
-          }
-        };
-
-        // Update count after initialization
         setTimeout(updateParticleCount, 100);
-        
-        // Update every 500ms
         const intervalId = setInterval(updateParticleCount, 500);
 
-        // Cleanup function
+        // Cleanup interval when unmounting
         return () => clearInterval(intervalId);
       } else {
         console.error('particlesJS is not defined');
       }
     };
 
-    // Cleanup script when unmounting
+    // Cleanup script on unmount
     return () => {
       document.body.removeChild(script);
     };
