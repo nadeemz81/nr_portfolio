@@ -1,13 +1,12 @@
-'use client'; // Ensures this runs on the client side
+'use client';
 
 import { useEffect, useState } from 'react';
 import styles from './ParticleBackground.module.css';
 
-// Define a more specific type instead of `any`
 declare global {
   interface Window {
     particlesJS?: (tag_id: string, params: object) => void;
-    pJSDom?: { pJS?: { particles?: { array?: any[] } } }[];
+    pJSDom?: { pJS?: { particles?: { array?: unknown[] } } }[];
   }
 }
 
