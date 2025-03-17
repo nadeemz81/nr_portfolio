@@ -1,0 +1,30 @@
+.about {
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .about h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .skills span {
+    background-color: #0f3460;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+  }
+  
+  @media (max-width: 480px) {
+    .about h2 {
+      font-size: 1.5rem;
+    }
+  }
