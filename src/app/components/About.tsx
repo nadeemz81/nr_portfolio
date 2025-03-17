@@ -1,5 +1,5 @@
 import styles from './About.module.css';
-import { FaCertificate, FaTools, FaEnvelope, FaPhone, FaLinkedin } from "react-icons/fa";
+import { FaCertificate, FaTools,  } from "react-icons/fa";
 
 export default function About() {
   return (
