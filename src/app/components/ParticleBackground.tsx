@@ -3,26 +3,25 @@
 import { useEffect, useState } from 'react';
 import styles from './ParticleBackground.module.css';
 
+// Define a more specific type instead of `any`
 declare global {
   interface Window {
-    particlesJS: (tag_id: string, params: any) => void;
-    pJSDom: any[];
+    particlesJS?: (tag_id: string, params: object) => void;
+    pJSDom?: { pJS?: { particles?: { array?: any[] } } }[];
   }
 }
 
 export default function ParticleBackground() {
-  const [particleCount, setParticleCount] = useState('--');
+  const [particleCount, setParticleCount] = useState<string>('0');
 
   useEffect(() => {
-    // Load particles.js from the public directory
     const script = document.createElement('script');
     script.src = '/particles.min.js';
     script.async = true;
     document.body.appendChild(script);
 
-    // Initialize particles.js after the script loads
     script.onload = () => {
-      if (window.particlesJS) {
+      if (typeof window.particlesJS === 'function') {
         window.particlesJS('particles-js', {
           particles: {
             number: { value: 100, density: { enable: true, value_area: 800 } },
@@ -45,30 +44,28 @@ export default function ParticleBackground() {
           retina_detect: true,
         });
 
-        // Particle counter
+        // Function to update particle count safely
         const updateParticleCount = () => {
-          const pjsInstance = window.pJSDom && window.pJSDom[0] ? window.pJSDom[0].pJS : null;
-          if (pjsInstance && pjsInstance.particles && pjsInstance.particles.array) {
+          const pjsInstance = window.pJSDom?.[0]?.pJS;
+          if (pjsInstance?.particles?.array) {
             setParticleCount(pjsInstance.particles.array.length.toString());
           }
         };
 
-        // Initial update after a short delay to ensure particles.js is initialized
+        // Update count after initialization
         setTimeout(updateParticleCount, 100);
-
+        
         // Update every 500ms
         const intervalId = setInterval(updateParticleCount, 500);
 
-        // Cleanup
-        return () => {
-          clearInterval(intervalId);
-        };
+        // Cleanup function
+        return () => clearInterval(intervalId);
       } else {
         console.error('particlesJS is not defined');
       }
     };
 
-    // Cleanup script on unmount
+    // Cleanup script when unmounting
     return () => {
       document.body.removeChild(script);
     };
@@ -82,7 +79,7 @@ export default function ParticleBackground() {
       width: '100vw',
       height: '100vh',
       zIndex: 0,
-      pointerEvents: 'none' // Allows interaction with content beneath
+      pointerEvents: 'none', // Allows interaction with content beneath
     }}>
       <div id="particles-js" className={styles.particles}></div>
       <div className={styles.countParticles}>

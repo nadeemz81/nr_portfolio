@@ -5,9 +5,11 @@ import Contact from '@/app/components/Contact';
 
 export default function Home() {
   return (
-    <div className="container">
+    <main className="container">
       <HomeComponent />
-      
-    </div>
+      <About />
+      <Projects />
+      <Contact />
+    </main>
   );
 }
